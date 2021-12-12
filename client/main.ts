@@ -19,11 +19,6 @@ import { backgroundSettings } from './background';
 import { renderTimeago } from './datetime';
 import { zenButtonView, zenModeSettings } from './zen';
 
-// redirect to correct URL except Heroku preview apps
-if (window.location.href.includes('z') && !window.location.href.includes('-pr-')) {
-    window.location.assign('https://www.pychess.org/');
-}
-
 export type PyChessModel = {
     username: string;
     home: string;
