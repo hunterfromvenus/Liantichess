@@ -289,7 +289,7 @@ export const VARIANTS: { [name: string]: Variant } = {
       board: "standard8x8", piece: "standard",
       pieceRoles: ["k", "q", "r", "b", "n", "p"],
       enPassant: true,
-      icon: "♔",
+      chess960: true, icon: "♔", icon960: "♔",
     }),  
 
     makruk: new Variant({
