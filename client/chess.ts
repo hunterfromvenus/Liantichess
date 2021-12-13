@@ -291,7 +291,7 @@ export const VARIANTS: { [name: string]: Variant } = {
         enPassant: true,
         alternateStart: {
             '': '',
-            'PawnsPushed': "rnbqkbnr/8/8/pppppppp/PPPPPPPP/8/8/RNBQKBNR w KQkq - 0 1",
+            'PawnsPushed': "rnbqkbnr/8/8/pppppppp/PPPPPPPP/8/8/RNBQKBNR w - - 0 1",
         },
         chess960: true, icon: "♔", icon960: "😀",
     }),
