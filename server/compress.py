@@ -15,6 +15,7 @@ V2C = {
     "crazyhouse": "h",
     "atomic": "A",
     "antichess": "L",
+    "antichess960": "B",
     "makruk": "m",
     "placement": "p",
     "seirawan": "s",
