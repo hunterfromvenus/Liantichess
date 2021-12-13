@@ -292,6 +292,9 @@ export const VARIANTS: { [name: string]: Variant } = {
         alternateStart: {
             '': '',
             'PawnsPushed': "rnbqkbnr/8/8/pppppppp/PPPPPPPP/8/8/RNBQKBNR w - - 0 1",
+            'idk': "rnknrqbb/pppppppp/8/8/8/8/PPPPPPPP/RNKNRQBB w - - 0 1",
+            'something': "nrbbkqnr/pppppppp/8/8/8/8/PPPPPPPP/NRBBKQNR w - - 0 1", 
+            'nothing': "nrbbkqnr/pppppppp/8/8/8/8/PPPPPPPP/NRBBKQNR w - - 0 1",            
         },
         chess960: true, icon: "♔", icon960: "😀",
     }),
