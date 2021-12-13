@@ -284,17 +284,18 @@ export const VARIANTS: { [name: string]: Variant } = {
     }),
 
     antichess: new Variant({
-      name: "antichess", tooltip: () => _("capture all pieces."),
-      startFen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 1",
-      board: "standard8x8", piece: "standard",
-      pieceRoles: ["k", "q", "r", "b", "n", "p"],
-      enPassant: true,
-      alternateStart: {
-          '': '',
-          'PawnsPushed': "rnbqkbnr/8/8/pppppppp/PPPPPPPP/8/8/RNBQKBNR w KQkq - 0 1",
+        name: "antichess", tooltip: () => _("capture all pieces."),
+        startFen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 1",
+        board: "standard8x8", piece: "standard",
+        pieceRoles: ["k", "q", "r", "b", "n", "p"],
+        enPassant: true,
+        alternateStart: {
+            '': '',
+            'PawnsPushed': "rnbqkbnr/8/8/pppppppp/PPPPPPPP/8/8/RNBQKBNR w KQkq - 0 1",
         },
-      chess960: true, icon: "♔", icon960: "♔",      
-   }),  
+        chess960: true, icon: "♔", icon960: "😀",
+    }),
+
 
     makruk: new Variant({
         name: "makruk", tooltip: () => _("Thai Chess. A game closely resembling the original Chaturanga. Similar to Chess but with a different queen and bishop."),
