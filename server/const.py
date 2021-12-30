@@ -43,8 +43,8 @@ GRANDS = ("xiangqi", "manchu", "grand", "grandhouse", "shako", "janggi")
 CONSERVATIVE_CAPA_FEN = "arnbqkbnrc/pppppppppp/10/10/10/10/PPPPPPPPPP/ARNBQKBNRC w KQkq - 0 1"
 
 VARIANTS = (
-#    "chess",
-#   "chess960",
+    "chess",
+    "chess960",
     "antichess",
     "antichess960",
     # We support to import/store/analyze these variants
