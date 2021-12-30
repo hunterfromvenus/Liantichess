@@ -47,7 +47,8 @@ VARIANTS = (
     "chess960",
     "antichess",
     "antichess960",
-    "losers"
+    "losers",
+    "losers960"
     # We support to import/store/analyze these variants
     # but don't support to add them to leaderboard page
     # "gothic",
@@ -72,7 +73,8 @@ VARIANT_ICONS = {
     "racingkings": "♔",
     "antichess": "♔",
     "antichess960": "♔",
-    "losers": "♟",
+    "losers": "♔",
+    "losers960": "♔",
     "threecheck": "♟",
     "capablanca": "P",
     "capahouse": "&",
