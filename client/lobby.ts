@@ -943,16 +943,6 @@ export function lobbyView(model: PyChessModel): VNode[] {
                 h('a.reflist', { attrs: {href: '/news'} }, _("Latest updates")),
             ]),
                 h('posts', [
-                    // TODO: create news documents in mongodb and load latest 3 dinamically here
-                    h('a.post', { attrs: {href: '/news/Loserschess'} }, [
-                        h('img', { attrs: {src: model["asset-url"] + '/images/newyear.png'} }),
-                        h('span.text', [
-                            h('strong', "Loserschess"),
-                            h('span', 'Happy loserschess New Year!'),
-                        ]),
-                        h('time', '2022.01.01'),
-
-                h('posts', [
                 // TODO: create news documents in mongodb and load latest 3 dinamically here
                     h('a.post', { attrs: {href: '/news/Liantichess'} }, [
                         h('img', { attrs: {src: model["asset-url"] + '/images/liantichess.png'} }),
