@@ -1,18 +1,18 @@
 # Frequently Asked Questions
 
-## Liantichess
+## peonelectrico
 
-<details><summary>What is Liantichess?</summary>
+<details><summary>What is peonelectrico?</summary>
 
-Liantichess is a website dedicated to to play antichess and antichess960. Derived From Pychess and Credits to Gbtami .</details>
+peonelectrico is a website dedicated to to play antichess and antichess960. Derived From Pychess and Credits to Gbtami .</details>
 
-<details><summary>Why is it called Liantichess?</summary>
+<details><summary>Why is it called peonelectrico?</summary>
 
 The server code is written like pychess and to play antichess.</details>
 
 <details><summary>What is the relationship to [Lichess](https://lichess.org/)?</summary>
 
-Liantichess's design is heavily influenced by Lichess and is meant to be comfortable for Lichess users. Liantichess has no official relationship to Lichess. However, it does use Lichess accounts to facilitate user management.</details>
+peonelectrico's design is heavily influenced by Lichess and is meant to be comfortable for Lichess users. peonelectrico has no official relationship to Lichess. However, it does use Lichess accounts to facilitate user management.</details>
 
 <details><summary>What is Fairy-Stockfish?</summary>
 
@@ -20,17 +20,17 @@ Stockfish is one of the premier engines designed to play chess. [Fairy-Stockfish
 
 <details><summary>Is level 8 Stockfish the strongest available?</summary>
 
-It is the strongest available on this site, but does not represent Fairy-Stockfish at full strength. Full strength requires more time to think and analyze; on Liantichess, Stockfish is limited to less than a second for each move.</details>
+It is the strongest available on this site, but does not represent Fairy-Stockfish at full strength. Full strength requires more time to think and analyze; on peonelectrico, Stockfish is limited to less than a second for each move.</details>
 
 <details><summary>I found a bug! Where do I report it?</summary>
 
-[Make an issue](https://github.com/SriMethan/Liantichess/issues/new). Ultimately it needs to be filed in Github issue tracker. Ideally, try to find a way to reproduce this bug in your description (if necessary, include the browser and OS). If you're not on Github, you can also mention it on Discord, and someone can file it.</details>
+Make an issue. Ultimately it needs to be filed in Github issue tracker. Ideally, try to find a way to reproduce this bug in your description (if necessary, include the browser and OS). If you're not on Github, you can also mention it on Discord, and someone can file it.</details>
 
 ## Variants
 
 <details><summary>What games are available?</summary>
 
-Check out the [Variants page](https://liantichess.herokuapp.com/variants).</details>
+Check out the [Variants page](https://peonelectrico.herokuapp.com/variants).</details>
 
 
 ## Interface
@@ -59,11 +59,11 @@ You need to have a Lichess account. If you don't already, please go to [Lichess]
 
 <details><summary>Would logging in with my Lichess account compromise my account/password?</summary>
 
-No! That is done via OAuth and your password isn't revealed to LiAntichess, just like how you can log in to third-party websites with your Google or Facebook accounts.</details>
+No! That is done via OAuth and your password isn't revealed to peonelectrico, just like how you can log in to third-party websites with your Google or Facebook accounts.</details>
 
 <details><summary>What's the best way to contact the developers?</summary>
 
-You can try the lobby chat, although the developers might not be on to answer. More reliably, we use [Discord](https://discord.gg/S3JmrXtsF2).</details>
+You can try the lobby chat, although the developers might not be on to answer. More reliably, we use [Discord](https://discord.gg).</details>
 
 
 
