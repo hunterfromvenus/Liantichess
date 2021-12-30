@@ -119,6 +119,7 @@ VARIANT_960_TO_PGN = {
     "crazyhouse": "Crazyhouse",  # to let lichess import work
     "atomic": "Atomic",          # to let lichess import work
     "antichess": "Antichess",          # to let lichess import work    
+    "losers": "losers",     
     "seirawan": "Seirawan960",
     # some early game is accidentally saved as 960 in mongodb
     "shogi": "Shogi",
