@@ -10,7 +10,7 @@
 </div>
 </br>
 
-![Trafic](static/images/new.png)
+![Trafic](https://github.com/SriMethan/Liantichess/blob/dev/static/images/new.png)
 
 
 **About the New Variant**
