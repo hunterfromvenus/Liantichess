@@ -947,11 +947,19 @@ export function lobbyView(model: PyChessModel): VNode[] {
                     h('a.post', { attrs: {href: '/news/Loserschess'} }, [
                         h('img', { attrs: {src: model["asset-url"] + '/images/new.png'} }),
                         h('span.text', [
-                            h('strong', "new year, new variant"),
+                            h('strong', "New year, New variant"),
                             h('span', 'Happy New Year'),
                         ]),
                         h('time', '2022.01.01'),
                 
+                ]),
+                h('a.post', { attrs: {href: '/news/Liantichess'} }, [
+                    h('img', { attrs: {src: model["asset-url"] + '/images/liantichess.png'} }),
+                    h('span.text', [
+                        h('strong', "Liantichess"),
+                        h('span', 'I really appreciate everyone who offered to help, donated, reported a bug or made me aware of some possible improvements.'),
+                    ]),
+                    h('time', '2021.12.17'),
                 ]),
                 h('posts', [
                     // TODO: create news documents in mongodb and load latest 3 dinamically here
