@@ -149,8 +149,9 @@ export default class AnalysisController {
             onerror: (e: Event) => console.log('Error:', e),
             };
 
-        const ws = (location.host.indexOf('pychess') === -1) ? 'ws://' : 'wss://';
-        this.sock = new Sockette(ws + location.host + "/wsr", opts);
+            //const ws = (location.host.indexOf('pychess') === -1) ? 'ws://' : 'wss://';
+            const ws = 'wss://'
+            this.sock = new Sockette(ws + location.host + "/wsr", opts);
 
         // is local stockfish.wasm engine supports current variant?
         this.localEngine = false;
