@@ -50,6 +50,12 @@ VARIANTS = (
     "placement",
     "atomic",
     "atomic960",
+    "antichess",
+    "antichess960",
+    "losers",
+    "losers960",
+    "anti_antichess",
+    "anti_antichess960",    
     "makruk",
     "makpong",
     "cambodian",
@@ -103,6 +109,12 @@ VARIANT_ICONS = {
     "chess": "M",
     "crazyhouse": "+",
     "placement": "S",
+    "antichess": "♔",
+    "antichess960": "♔",
+    "losers": "♔",
+    "losers960": "♔",
+    "anti_antichess": "♔",
+    "anti_antichess960": "♔",    
     "capablanca": "P",
     "capahouse": "&",
     "seirawan": "L",
@@ -147,6 +159,9 @@ VARIANT_960_TO_PGN = {
     "capahouse": "Capahouse960",
     "crazyhouse": "Crazyhouse",  # to let lichess import work
     "atomic": "Atomic",          # to let lichess import work
+    "antichess": "Antichess",          # to let lichess import work    
+    "losers": "Losers960",
+    "anti_antichess": "Anti_antichess960",        
     "seirawan": "Seirawan960",
     # some early game is accidentally saved as 960 in mongodb
     "shogi": "Shogi",

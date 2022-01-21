@@ -288,6 +288,33 @@ export const VARIANTS: { [name: string]: Variant } = {
         chess960: true, icon: "~", icon960: "\\",
     }),
 
+    losers: new Variant({
+            name: "losers", tooltip: () => _("losers Chess."),
+            startFen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+            board: "standard8x8", piece: "standard",
+            pieceRoles: ["k", "q", "r", "b", "n", "p"],
+            enPassant: true,
+            chess960: true, icon: "♔", icon960: "♔",
+        }),
+            
+    anti_antichess: new Variant({
+            name: "anti_antichess", displayName: "anti-antichess", tooltip: () => _("loose at antichess"),
+            startFen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+            board: "standard8x8", piece: "standard",
+            pieceRoles: ["k", "q", "r", "b", "n", "p"],
+            enPassant: true,
+            chess960: true, icon: "♔", icon960: "♔",
+          }),
+          
+    antichess: new Variant({
+      name: "antichess", tooltip: () => _("capture all pieces."),
+      startFen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 1",
+      board: "standard8x8", piece: "standard",
+      pieceRoles: ["k", "q", "r", "b", "n", "p"],
+      enPassant: true,
+      chess960: true, icon: "♔", icon960: "♔",
+    }),    
+
     makruk: new Variant({
         name: "makruk", tooltip: () => _("Thai Chess. A game closely resembling the original Chaturanga. Similar to Chess but with a different queen and bishop."),
         startFen: "rnsmksnr/8/pppppppp/8/8/PPPPPPPP/8/RNSKMSNR w - - 0 1",
