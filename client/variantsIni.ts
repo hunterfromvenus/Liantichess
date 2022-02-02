@@ -17,7 +17,7 @@ mustCapture = true
 mustCapture = true
 extinctionValue = loss
 extinctionPieceTypes = *
-extinctionPseudoRoyal = true
+extinctionPseudoRoyal = fals
 
 # Hybrid of antichess and atomic.
 [antiatomic:giveaway]
