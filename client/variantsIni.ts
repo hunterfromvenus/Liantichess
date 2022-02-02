@@ -15,8 +15,9 @@ mustCapture = true
 
 [anticapablanca:capablanca]
 mustCapture = true
-extinctionValue = win
+extinctionValue = loss
 extinctionPieceTypes = *
+extinctionPseudoRoyal = true
 
 # Hybrid of antichess and atomic.
 [antiatomic:giveaway]
