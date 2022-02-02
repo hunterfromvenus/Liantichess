@@ -15,9 +15,8 @@ mustCapture = true
 
 [anticapablanca:capablanca]
 mustCapture = true
-flagPiece = k
-whiteFlag = *8 *7 *6 *5 *4 *3 *2 *1
-blackFlag = *8 *7 *6 *5 *4 *3 *2 *1
+extinctionValue = win
+extinctionPieceTypes = *
 
 # Hybrid of antichess and atomic.
 [antiatomic:giveaway]
