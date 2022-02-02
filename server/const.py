@@ -51,6 +51,8 @@ VARIANTS = (
     "anti_antichess960",
     "antiatomic",
     "antiatomic960",
+    "anticapablanca",
+    "anticapablanca960",
     "antihouse",
     "antihouse960",
     "antipawns",
@@ -96,6 +98,8 @@ VARIANT_ICONS = {
     "anti_antichess960": "♔",
     "antiatomic": "♔",
     "antiatomic960": "♔",
+    "anticapablanca": "♔",
+    "anticapablanca960": "♔",    
     "antihouse": "♔",
     "antihouse960": "♔",
     "antipawns": "♔",
@@ -144,6 +148,7 @@ VARIANT_ICONS = {
 VARIANT_960_TO_PGN = {
     "chess": "Chess960",
     "capablanca": "Caparandom",
+    "anticapablanca": "Anticapablanca960",
     "capahouse": "Capahouse960",
     "crazyhouse": "Crazyhouse",  # to let lichess import work
     "atomic": "Atomic",          # to let lichess import work
@@ -168,7 +173,7 @@ VARIANT_960_TO_PGN = {
 }
 
 CATEGORIES = {
-    "chess": ("chess", "chess960", "crazyhouse", "crazyhouse960", "placement", "atomic", "atomic960", "antichess", "antichess960", "antiatomic", "antiatomic", "coffeehouse", "coffeehouse960"),
+    "chess": ("chess", "chess960", "crazyhouse", "crazyhouse960", "placement", "atomic", "atomic960", "antichess", "antichess960", "antiatomic", "antiatomic", "coffeehouse", "coffeehouse960", "anticapablanca", "anticapablanca960"),
     "fairy": ("capablanca", "capablanca960", "capahouse", "capahouse960", "seirawan", "seirawan960", "shouse", "grand", "grandhouse", "shako", "shogun", "hoppelpoppel"),
     "army": ("synochess", "shinobi", "empire", "chak"),
     "makruk": ("makruk", "makpong", "cambodian", "sittuyin", "asean"),

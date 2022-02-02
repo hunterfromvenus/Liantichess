@@ -13,6 +13,9 @@ mustCapture = true
 [coffeerace:racingkings]
 mustCapture = true
 
+[anticapablanca:capablanca]
+mustCapture = true
+
 # Hybrid of antichess and atomic.
 [antiatomic:giveaway]
 blastOnCapture = true
