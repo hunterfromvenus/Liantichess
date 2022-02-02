@@ -15,6 +15,8 @@ mustCapture = true
 
 [anticapablanca:capablanca]
 mustCapture = true
+extinctionValue = win
+stalemateValue = win
 
 # Hybrid of antichess and atomic.
 [antiatomic:giveaway]
