@@ -214,13 +214,16 @@ TROPHY_KIND = (
     "antihouse",
     "antihouse960",
     "antipawns",
-    "coffeerace",
     "coffee_3check",
     "coffee_3check960",
+    "coffeerace",
     "coffeehouse",
     "coffeehouse960",
     "coffeehill",
     "coffeehill960",
+    "antiplacement",
+    "antiminishogi",
+    "antihoppelpoppel",
     "atomic_giveaway_hill",
     "atomic_giveaway_hill960"
 )
