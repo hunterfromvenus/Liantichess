@@ -21,6 +21,7 @@ V2C = {
     "antihoppelpoppel": "Y",
     "antichess": "f",
     "losers": "H",
+    "antiminishogi": "H",
     "coffee_3check": "X",
     "coffeerace": "N",   
     "anti_antichess": "V",
