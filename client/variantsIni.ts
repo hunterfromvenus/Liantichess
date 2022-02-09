@@ -46,7 +46,7 @@ castling = false
 [antiplacement:placement]
 king = -
 commoner = k
-promotionPieceTypes = nrqk
+promotionPieceTypes = nbrqk
 mustCapture = true
 stalemateValue = win
 extinctionValue = win
