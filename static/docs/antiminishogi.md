@@ -3,28 +3,22 @@
 
 ![AntiMinishogi](https://github.com/gbtami/pychess-variants/blob/master/static/images/ShogiGuide/Minishogi.png)
 
-AntiMinishogi is essentially shogi on a 5x5 board. The game was invented (or rediscovered) around 1970 by Shigenobu Kusumoto of Osaka, Japan.
+AntiMinishogi is essentially [shogi](https://www.pychess.org/variants/shogi) on a 5x5 board combined with Antichess. [Minishogi](https://www.pychess.org/variants/minishogi) was invented (or rediscovered) around 1970 by Shigenobu Kusumoto of Osaka, Japan.
 
 ## Rules
 
-The main rule of this game to lose all the pieces and mustcapture like antichess.
+The main rule of this game to lose all the pieces and you must capture like in antichess.
 
-As this game is based off shogi, please see the corresponding guide for basic shogi rules first if you are not familiar with them.
+The starting setup is as Minishogi. There is only one pawn, a bishop and rook, and one of each general. Promotion is only done in the last rank.
 
-The starting setup is as above. Unlike standard shogi, there is no knight or lance. There is only one pawn, a bishop and rook, and one of each general. Promotion is only done in the last rank.
-
-Rules from Shogi are summarized below:
+Rules from Minishogi are summarized below:
 
 *Drops* - The main exceptions to dropping a piece anywhere are with pawns. 
 1) Pawns cannot be dropped in the same file as another one of your unpromoted pawns (promoted are okay). 
-2) A pawn drop cannot checkmate, but checks are okay. 
-3) The final exception applies to all minor pieces. You cannot drop a piece so that it can’t move, which usually means the last rank… or the last two ranks in the case of a knight.
+2) The final exception applies to all minor pieces. You cannot drop a piece so that it can’t move, which usually means the last rank… or the last two ranks in the case of a knight.
 
-*Perpetual check* - Repeating check resulting in the same position four times in a row is a loss to the player causing perpetual check. In chess, this results in a draw.
 
-*Repetition* - Similar to the above, repeating the same position (including pieces in hand) results in a draw.
-
-*Timer* - Shogi uses a byo-yomi timer. Once the main clock expires, a player enters byo-yomi. If it is set at 30 seconds, then that player will only have 30 seconds to make his move from then for each of his/her moves or else lose the game on time.
+*Timer* - Antiminishogi uses a byo-yomi timer. Once the main clock expires, a player enters byo-yomi. If it is set at 30 seconds, then that player will only have 30 seconds to make his move from then for each of his/her moves or else lose the game on time.
 
 ## Pieces
 
@@ -119,3 +113,7 @@ Unlike the dragon king and dragon horse, these do not have special names. The ex
 ## Strategy
 
 Due to the smaller board size, the rook and bishop are not as dominant as standard shogi. However, their promotions are still very much threatening.
+
+## Goal
+
+Though promotion rules, boards and pieces come from Minishogi, the main goal of the game is to loose all your pieces in a game. Also you must capture when there is a legal move to capture a piece.
