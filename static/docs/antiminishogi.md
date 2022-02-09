@@ -1,9 +1,9 @@
 
-# ![Minishogi](https://github.com/gbtami/pychess-variants/blob/master/static/icons/minishogi.svg) Minishogi
+# ![AntiMinishogi](https://github.com/gbtami/pychess-variants/blob/master/static/icons/minishogi.svg) AntiMinishogi
 
-![Minishogi](https://github.com/gbtami/pychess-variants/blob/master/static/images/ShogiGuide/Minishogi.png)
+![AntiMinishogi](https://github.com/gbtami/pychess-variants/blob/master/static/images/ShogiGuide/Minishogi.png)
 
-Minishogi is essentially shogi on a 5x5 board. The game was invented (or rediscovered) around 1970 by Shigenobu Kusumoto of Osaka, Japan.
+AntiMinishogi is essentially shogi on a 5x5 board. The game was invented (or rediscovered) around 1970 by Shigenobu Kusumoto of Osaka, Japan.
 
 ## Rules
 
