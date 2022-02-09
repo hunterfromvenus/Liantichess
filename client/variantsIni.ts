@@ -20,7 +20,6 @@ stalemateValue = win
 extinctionValue = win
 mustCapture = true
 extinctionPieceTypes = *
-extinctionPseudoRoyal = false
 
 # Hybrid of antichess and zh. Antichess is the base variant.
 [antihouse:giveaway]
