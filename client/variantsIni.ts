@@ -22,6 +22,9 @@ mustCapture = true
 extinctionPieceTypes = *
 extinctionPseudoRoyal = false
 shogiPawnDropMateIllegal = false
+perpetualCheckIllegal = false
+extinctionPieceCount = 0
+extinctionOpponentPieceCount = 0
 
 # Hybrid of antichess and zh. Antichess is the base variant.
 [antihouse:giveaway]
