@@ -283,6 +283,17 @@ export const VARIANTS: { [name: string]: Variant } = {
         icon: "♔",
     }),
 
+    antigrandhouse: new Variant({
+        name: "antigrandhouse", tooltip: () => _("Grand Chess with Crazyhouse drop rules."),
+        startFen: "r8r/1nbqkcabn1/pppppppppp/10/10/10/10/PPPPPPPPPP/1NBQKCABN1/R8R[] w - - 0 1",
+        board: "grand10x10", piece: "capa",
+        pieceRoles: ["k", "q", "c", "a", "r", "b", "n", "p"],
+        pocketRoles: ["p", "n", "b", "r", "a", "c", "q"],
+        isMandatoryPromotion: distanceBased({ p: 1 }, 10),
+        enPassant: true, drop: true,
+        icon: "♔",
+    }),    
+
     antichak: new Variant({
         name: "antichak", tooltip: () => _("https://www.chessvariants.com/rules/chak"),
         startFen: "rvsqkjsvr/4o4/p1p1p1p1p/9/9/9/P1P1P1P1P/4O4/RVSJKQSVR w - - 0 1",
@@ -876,7 +887,7 @@ const disabledVariants = [ "gothic", "gothhouse", "embassy" ];
 export const enabledVariants = variants.filter(v => !disabledVariants.includes(v));
 
 const variantGroups: { [ key: string ]: { variants: string[] } } = {
-    standard: { variants: [ "antichess", "losers", "anti_antichess", "antiatomic", "antihouse", "antipawns", "coffeehouse", "coffeehill", "atomic_giveaway_hill", "coffee_3check", "coffeerace", "antiplacement", "antihoppelpoppel", "antishogun", "anticapablanca", "antichak"] },
+    standard: { variants: [ "antichess", "losers", "anti_antichess", "antiatomic", "antihouse", "antipawns", "coffeehouse", "coffeehill", "atomic_giveaway_hill", "coffee_3check", "coffeerace", "antiplacement", "antihoppelpoppel", "antishogun", "anticapablanca", "antichak", "antigrandhouse"] },
     //sea:      { variants: [ "makruk", "makpong", "cambodian", "sittuyin", "asean" ] },
     //shogi:    { variants: [ "antishogi" ] },
     //xiangqi:  { variants: [ "xiangqi", "manchu", "janggi", "minixiangqi" ] },

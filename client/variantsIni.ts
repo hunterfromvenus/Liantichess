@@ -80,6 +80,17 @@ mustCapture = true
 extinctionPieceTypes = *
 extinctionPseudoRoyal = false
 
+[antigrandhouse:grand]
+startFen = r8r/1nbqkcabn1/pppppppppp/10/10/10/10/PPPPPPPPPP/1NBQKCABN1/R8R[] w - - 0 1
+pieceDrops = true
+capturesToHand = true
+mustCapture = true
+stalemateValue = win
+extinctionValue = win
+extinctionPieceTypes = *
+extinctionPseudoRoyal = false
+castling = false
+
 # Hybrid of antichess and zh. Antichess is the base variant.
 [antihouse:giveaway]
 pieceDrops = true
