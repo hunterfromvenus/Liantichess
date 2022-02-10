@@ -283,6 +283,17 @@ export const VARIANTS: { [name: string]: Variant } = {
         icon: "♔",
     }),
 
+    antichak: new Variant({
+        name: "antichak", tooltip: () => _("https://www.chessvariants.com/rules/chak"),
+        startFen: "rvsqkjsvr/4o4/p1p1p1p1p/9/9/9/P1P1P1P1P/4O4/RVSJKQSVR w - - 0 1",
+        board: "chak9x9", piece: "chak",
+        firstColor: "White", secondColor: "Green",
+        pieceRoles: ["r", "v", "s", "q", "k", "j", "o", "p"],
+        promotion: "shogi",
+        promoteablePieces: ["p", "k"],
+        icon: "♔",
+    }),    
+
     anticapablanca: new Variant({
         name: "anticapablanca", tooltip: () => _("Play with the hybrid pieces, archbishop (B+N) and chancellor (R+N), on a 10x8 board."),
         startFen: "rnabqkbcnr/pppppppppp/10/10/10/10/PPPPPPPPPP/RNABQKBCNR w KQkq - 0 1",
@@ -865,7 +876,7 @@ const disabledVariants = [ "gothic", "gothhouse", "embassy" ];
 export const enabledVariants = variants.filter(v => !disabledVariants.includes(v));
 
 const variantGroups: { [ key: string ]: { variants: string[] } } = {
-    standard: { variants: [ "antichess", "losers", "anti_antichess", "antiatomic", "antihouse", "antipawns", "coffeehouse", "coffeehill", "atomic_giveaway_hill", "coffee_3check", "coffeerace", "antiplacement", "antihoppelpoppel", "antishogun", "anticapablanca"] },
+    standard: { variants: [ "antichess", "losers", "anti_antichess", "antiatomic", "antihouse", "antipawns", "coffeehouse", "coffeehill", "atomic_giveaway_hill", "coffee_3check", "coffeerace", "antiplacement", "antihoppelpoppel", "antishogun", "anticapablanca", "antichak"] },
     //sea:      { variants: [ "makruk", "makpong", "cambodian", "sittuyin", "asean" ] },
     //shogi:    { variants: [ "antishogi" ] },
     //xiangqi:  { variants: [ "xiangqi", "manchu", "janggi", "minixiangqi" ] },
