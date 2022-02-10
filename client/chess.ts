@@ -281,6 +281,20 @@ export const VARIANTS: { [name: string]: Variant } = {
         pocketRoles: ["n", "b", "r", "q", "k"],
         enPassant: true,
         icon: "♔",
+    }),
+    
+    antishogun: new Variant({
+        name: "antishogun", tooltip: () => _("Pieces promote and can be dropped, similar to Shogi."),
+        startFen: "rnb+fkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNB+FKBNR w KQkq - 0 1",
+        board: "shogun8x8", piece: "shogun",
+        pieceRoles: ["k", "f", "r", "b", "n", "p"],
+        pocketRoles: ["p", "n", "b", "r", "f"],
+        promotion: "shogi",
+        promoteablePieces: ["p", "f", "r", "b", "n"],
+        isMandatoryPromotion: distanceBased({ p: 1 }, 8),
+        timeControl: "byoyomi",
+        enPassant: true, drop: true,
+        icon: "♔",
     }),    
 
     antihoppelpoppel: new Variant({
@@ -834,7 +848,7 @@ const disabledVariants = [ "gothic", "gothhouse", "embassy" ];
 export const enabledVariants = variants.filter(v => !disabledVariants.includes(v));
 
 const variantGroups: { [ key: string ]: { variants: string[] } } = {
-    standard: { variants: [ "antichess", "losers", "anti_antichess", "antiatomic", "antihouse", "antipawns", "coffeehouse", "coffeehill", "atomic_giveaway_hill", "coffee_3check", "coffeerace", "antiplacement", "antihoppelpoppel"] },
+    standard: { variants: [ "antichess", "losers", "anti_antichess", "antiatomic", "antihouse", "antipawns", "coffeehouse", "coffeehill", "atomic_giveaway_hill", "coffee_3check", "coffeerace", "antiplacement", "antihoppelpoppel", "antishogun"] },
     //sea:      { variants: [ "makruk", "makpong", "cambodian", "sittuyin", "asean" ] },
     //shogi:    { variants: [ "antishogi" ] },
     //xiangqi:  { variants: [ "xiangqi", "manchu", "janggi", "minixiangqi" ] },

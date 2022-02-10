@@ -13,6 +13,7 @@ V2C = {
     "antipawns": "c",
     "antihouse": "i",
     "antiplacement": "Q",
+    "antishogun": "Z",
     "antishogi": "R",
     "atomic_giveaway_hill": "h",
     "coffeehill": "A",

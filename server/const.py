@@ -63,6 +63,7 @@ VARIANTS = (
     "coffeehill960",
     "antiplacement",
     "antihoppelpoppel",
+    "antishogun",
     "atomic_giveaway_hill",
     "atomic_giveaway_hill960"  
     # We support to import/store/analyze these variants
@@ -101,6 +102,7 @@ VARIANT_ICONS = {
     "antiatomic960": "♔",
     "antihouse": "♔",
     "antihouse960": "♔",
+    "antishogun": "♔",
     "antipawns": "♔",
     "coffeehouse": "♔",
     "coffeehouse960": "♔",

@@ -11,6 +11,31 @@ blastOnCapture = true
 castling = false
 extinctionOpponentPieceCount = 1
 
+[antishogun:crazyhouse]
+startFen = rnb+fkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNB+FKBNR[] w KQkq - 0 1
+centaur = g
+archbishop = a
+chancellor = m
+fers = f
+promotionRank = 6
+promotionLimit = g:1 a:1 m:1 q:1
+promotionPieceTypes = -
+promotedPieceType = p:c n:g b:a r:m f:q
+mandatoryPawnPromotion = false
+firstRankPawnDrops = true
+promotionZonePawnDrops = true
+whiteDropRegion = *1 *2 *3 *4 *5
+blackDropRegion = *4 *5 *6 *7 *8
+immobilityIllegal = true
+king = -
+commoner = c
+mustCapture = true
+stalemateValue = win
+extinctionValue = win
+extinctionPieceTypes = *
+extinctionPseudoRoyal = false
+castling = false
+
 # Hybrid of antichess and zh. Antichess is the base variant.
 [antihouse:giveaway]
 pieceDrops = true
