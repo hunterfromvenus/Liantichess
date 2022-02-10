@@ -282,6 +282,23 @@ export const VARIANTS: { [name: string]: Variant } = {
         enPassant: true,
         icon: "♔",
     }),
+
+    anticapablanca: new Variant({
+        name: "anticapablanca", tooltip: () => _("Play with the hybrid pieces, archbishop (B+N) and chancellor (R+N), on a 10x8 board."),
+        startFen: "rnabqkbcnr/pppppppppp/10/10/10/10/PPPPPPPPPP/RNABQKBCNR w KQkq - 0 1",
+        board: "standard10x8", piece: "capa",
+        pieceRoles: ["k", "q", "c", "a", "r", "b", "n", "p"],
+        enPassant: true,
+        alternateStart: {
+            '': '',
+            'Bird': 'rnbcqkabnr/pppppppppp/10/10/10/10/PPPPPPPPPP/RNBCQKABNR w KQkq - 0 1',
+            'Carrera': 'rcnbqkbnar/pppppppppp/10/10/10/10/PPPPPPPPPP/RCNBQKBNAR w KQkq - 0 1',
+            'Gothic': 'rnbqckabnr/pppppppppp/10/10/10/10/PPPPPPPPPP/RNBQCKABNR w KQkq - 0 1',
+            'Embassy': 'rnbqkcabnr/pppppppppp/10/10/10/10/PPPPPPPPPP/RNBQKCABNR w KQkq - 0 1',
+            'Conservative': 'arnbqkbnrc/pppppppppp/10/10/10/10/PPPPPPPPPP/ARNBQKBNRC w KQkq - 0 1'
+        },
+        chess960: true, icon: "♔", icon960: "♔",
+    }),    
     
     antishogun: new Variant({
         name: "antishogun", tooltip: () => _("Pieces promote and can be dropped, similar to Shogi."),
@@ -848,7 +865,7 @@ const disabledVariants = [ "gothic", "gothhouse", "embassy" ];
 export const enabledVariants = variants.filter(v => !disabledVariants.includes(v));
 
 const variantGroups: { [ key: string ]: { variants: string[] } } = {
-    standard: { variants: [ "antichess", "losers", "anti_antichess", "antiatomic", "antihouse", "antipawns", "coffeehouse", "coffeehill", "atomic_giveaway_hill", "coffee_3check", "coffeerace", "antiplacement", "antihoppelpoppel", "antishogun"] },
+    standard: { variants: [ "antichess", "losers", "anti_antichess", "antiatomic", "antihouse", "antipawns", "coffeehouse", "coffeehill", "atomic_giveaway_hill", "coffee_3check", "coffeerace", "antiplacement", "antihoppelpoppel", "antishogun", "anticapablanca"] },
     //sea:      { variants: [ "makruk", "makpong", "cambodian", "sittuyin", "asean" ] },
     //shogi:    { variants: [ "antishogi" ] },
     //xiangqi:  { variants: [ "xiangqi", "manchu", "janggi", "minixiangqi" ] },

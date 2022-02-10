@@ -64,6 +64,7 @@ VARIANTS = (
     "antiplacement",
     "antihoppelpoppel",
     "antishogun",
+    "anticapablanca",
     "atomic_giveaway_hill",
     "atomic_giveaway_hill960"  
     # We support to import/store/analyze these variants
@@ -103,6 +104,8 @@ VARIANT_ICONS = {
     "antihouse": "♔",
     "antihouse960": "♔",
     "antishogun": "♔",
+    "anticapablanca": "♔",
+    "anticapablanca960": "♔",
     "antipawns": "♔",
     "coffeehouse": "♔",
     "coffeehouse960": "♔",
@@ -165,6 +168,7 @@ VARIANT_960_TO_PGN = {
     "antipawns": "Antipawns960",
     "coffeehouse": "Coffeehouse960",
     "coffeehill": "Coffeehill960",
+    "anticapablanca": "Anticapablanca960",
     "atomic_giveaway_hill": "Atomic_giveaway_hill960",            
     "seirawan": "Seirawan960",
     # some early game is accidentally saved as 960 in mongodb
@@ -176,7 +180,7 @@ VARIANT_960_TO_PGN = {
 }
 
 CATEGORIES = {
-    "chess": ("chess", "chess960", "crazyhouse", "crazyhouse960", "placement", "atomic", "atomic960", "antichess", "antichess960", "antiatomic", "antiatomic", "coffeehouse", "coffeehouse960", "antihoppelpoppel"),
+    "chess": ("chess", "chess960", "crazyhouse", "crazyhouse960", "placement", "atomic", "atomic960", "antichess", "antichess960", "antiatomic", "antiatomic", "coffeehouse", "coffeehouse960", "antihoppelpoppel", "anticapablanca"),
     "fairy": ("capablanca", "capablanca960", "capahouse", "capahouse960", "seirawan", "seirawan960", "shouse", "grand", "grandhouse", "shako", "shogun", "hoppelpoppel"),
     "army": ("synochess", "shinobi", "empire", "chak"),
     "makruk": ("makruk", "makpong", "cambodian", "sittuyin", "asean"),

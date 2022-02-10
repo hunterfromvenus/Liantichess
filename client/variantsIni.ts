@@ -36,6 +36,16 @@ extinctionPieceTypes = *
 extinctionPseudoRoyal = false
 castling = false
 
+[anticapablanca:capablanca]
+king = -
+commoner = k
+mustCapture = true
+stalemateValue = win
+extinctionValue = win
+extinctionPieceTypes = *
+extinctionPseudoRoyal = false
+castling = false
+
 # Hybrid of antichess and zh. Antichess is the base variant.
 [antihouse:giveaway]
 pieceDrops = true
