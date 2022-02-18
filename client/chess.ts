@@ -1180,7 +1180,6 @@ export function notation(variant: Variant): cg.Notation {
             break;
         case 'shogi':
         case 'minishogi':
-        case 'antiminishogi':    
         case 'kyotoshogi':
         case 'dobutsu':
         case 'gorogoro':
