@@ -12,34 +12,15 @@ castling = false
 extinctionOpponentPieceCount = 1
 
 # Hybrid of antichess and minishogi.
-# Variant configuration from scratch.
-[antiminishogi]
-variantTemplate = shogi
-maxRank = 5
-maxFile = 5
-shogiPawn = p
-silver = s
-gold = g
-bishop = b
-dragonHorse = h
-rook = r
-bers = d
-king = k
+# This might look like a coffee variant, but it isn't.
+[antiminishogi:minishogi]
+king = -
 commoner = k
-startFen = rbsgk/4p/5/P4/KGSBR[-] w 0 1
-pieceDrops = true
-capturesToHand = true
-promotionRank = 5
-doubleStep = false
-castling = false
-promotedPieceType = p:g s:g b:h r:d
-dropNoDoubled = p
-immobilityIllegal = true
-stalemateValue = win
-pocketSize = 5
-extinctionValue = win
 mustCapture = true
+stalemateValue = win
+extinctionValue = win
 extinctionPieceTypes = *
+extinctionPseudoRoyal = false
 
 # Hybrid of antichess and zh. Antichess is the base variant.
 [antihouse:giveaway]
