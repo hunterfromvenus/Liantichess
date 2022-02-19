@@ -538,6 +538,22 @@ export const VARIANTS: { [name: string]: Variant } = {
         icon: "K",
     }),
 
+    antiminishogi: new Variant({
+        name: "antiminishogi", tooltip: () => _("5x5 Shogi for more compact and faster games. There are no knights or lances."),
+        startFen: "rbsgk/4p/5/P4/KGSBR[-] w 0 1",
+        board: "shogi5x5", piece: "shogi",
+        firstColor: "Black", secondColor: "White",
+        pieceRoles: ["k", "g", "r", "b", "s", "p"],
+        pocketRoles: ["p", "s", "g", "b", "r"],
+        promotion: "shogi",
+        promoteablePieces: ["p", "s", "r", "b"],
+        isMandatoryPromotion: distanceBased({ p: 1 }, 5),
+        timeControl: "byoyomi",
+        pieceSound: "shogi",
+        drop: true,
+        icon: "♔",
+    }),
+
     minishogi: new Variant({
         name: "minishogi", tooltip: () => _("5x5 Shogi for more compact and faster games. There are no knights or lances."),
         startFen: "rbsgk/4p/5/P4/KGSBR[-] w 0 1",
@@ -889,7 +905,7 @@ export const enabledVariants = variants.filter(v => !disabledVariants.includes(v
 const variantGroups: { [ key: string ]: { variants: string[] } } = {
     standard: { variants: [ "antichess", "losers", "anti_antichess", "antiatomic", "antihouse", "antipawns", "coffeehouse", "coffeehill", "atomic_giveaway_hill", "coffee_3check", "coffeerace", "antiplacement", "antihoppelpoppel", "antishogun", "anticapablanca", "antichak", "antigrandhouse"] },
     //sea:      { variants: [ "makruk", "makpong", "cambodian", "sittuyin", "asean" ] },
-    //shogi:    { variants: [ "antishogi" ] },
+    shogi:    { variants: [ "antiminishogi" ] },
     //xiangqi:  { variants: [ "xiangqi", "manchu", "janggi", "minixiangqi" ] },
     //fairy:    { variants: [ "capablanca", "capahouse", "seirawan", "shouse", "grand", "grandhouse", "shako", "shogun", "hoppelpoppel" ] },
     //army:     { variants: [ "orda", "synochess", "shinobi", "empire", "ordamirror" ] },
@@ -1217,6 +1233,7 @@ export function notation(variant: Variant): cg.Notation {
             break;
         case 'shogi':
         case 'minishogi':
+        case 'antiminishogi':    
         case 'kyotoshogi':
         case 'dobutsu':
         case 'gorogoro':

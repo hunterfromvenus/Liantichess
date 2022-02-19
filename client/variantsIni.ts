@@ -37,6 +37,9 @@ extinctionPseudoRoyal = false
 castling = false
 
 [anticapablanca:capablanca]
+# Hybrid of antichess and minishogi.
+# This might look like a coffee variant, but it isn't.
+[antiminishogi:minishogi]
 king = -
 commoner = k
 mustCapture = true
@@ -115,7 +118,7 @@ castling = false
 [antiplacement:placement]
 king = -
 commoner = k
-promotionPieceTypes = nrqk
+promotionPieceTypes = nbrqk
 mustCapture = true
 stalemateValue = win
 extinctionValue = win
@@ -127,7 +130,7 @@ castling = false
 [antihoppelpoppel:hoppelpoppel]
 king = -
 commoner = k
-promotionPieceTypes = nrqk
+promotionPieceTypes = nbrqk
 mustCapture = true
 stalemateValue = win
 extinctionValue = win
