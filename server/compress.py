@@ -53,6 +53,14 @@ V2C = {
     "hoppelpoppel": "w",
     "manchu": "M",
     "dobutsu": "D",
+    "gorogoroplus": "G",
+    "shinobi": "J",
+    "empire": "P",
+    "antikoth": "O",
+    "torishogi": "T",
+    "asean": "S",
+    "chak": "C",
+    "chennis": "H",
     "gorogoro": "G",
     "antishinobi": "J",
     "antiempire": "P",
@@ -89,11 +97,16 @@ for piece in PIECES:
     M2C["%s@" % piece] = m2c_len
     m2c_len += 1
 
+# Chennis drop moves can start with extra "+" as well (P and S are already added above for Kyoto Shogi)
+for piece in "FM":
+    M2C["+%s" % piece] = m2c_len
+    m2c_len += 1
+
 C2M = {v: k for k, v in M2C.items()}
 
 
 def encode_moves(moves, variant):
-    if variant == "kyotoshogi":
+    if variant in ("kyotoshogi", "chennis"):
         return [
             chr(M2C[move[0:2]]) + chr(M2C[move[3:5]]) + "@"
             if move[0] == "+" else
@@ -103,7 +116,7 @@ def encode_moves(moves, variant):
 
 
 def decode_moves(moves, variant):
-    if variant == "kyotoshogi":
+    if variant in ("kyotoshogi", "chennis"):
         return [
             C2M[ord(move[0])] + "@" + C2M[ord(move[1])]
             if move[-1] == "@" else

@@ -7,7 +7,7 @@ import logging
 import os
 from operator import neg
 from urllib.parse import urlparse
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from sys import platform
 
 if platform != "win32":
@@ -27,16 +27,18 @@ from pythongettext.msgfmt import PoSyntaxError
 
 from ai import BOT_task
 from broadcast import lobby_broadcast, round_broadcast
-from const import VARIANTS, STARTED, LANGUAGES, T_CREATED, T_STARTED, MAX_CHAT_LINES
+from const import VARIANTS, STARTED, LANGUAGES, T_CREATED, T_STARTED, MAX_CHAT_LINES, SCHEDULE_MAX_DAYS
 from generate_crosstable import generate_crosstable
 from generate_highscore import generate_highscore
 from generate_shield import generate_shield
 from glicko2.glicko2 import DEFAULT_PERF
+from index import handle_404
 from routes import get_routes, post_routes
 from settings import DEV, MAX_AGE, SECRET_KEY, MONGO_HOST, MONGO_DB_NAME, FISHNET_KEYS, URI, static_url
 from user import User
-from tournaments import load_tournament
+from tournaments import load_tournament, get_scheduled_tournaments
 from twitch import Twitch
+from scheduler import create_scheduled_tournaments, new_scheduled_tournaments
 
 log = logging.getLogger(__name__)
 
@@ -77,6 +79,7 @@ def make_app(with_db=True) -> Application:
     for route in post_routes:
         app.router.add_post(route[0], route[1])
     app.router.add_static("/static", "static", append_version=True)
+    app.middlewares.append(handle_404)
 
     return app
 
@@ -120,6 +123,7 @@ async def init_state(app):
     app["shield_owners"] = {}  # {variant: username, ...}
 
     app["stats"] = {}
+    app["stats_humans"] = {}
 
     # counters for games
     app["g_cnt"] = [0]
@@ -129,7 +133,7 @@ async def init_state(app):
 
     app["twitch"] = Twitch(app)
     if not DEV:
-        await app["twitch"].init_subscriptions()
+        asyncio.create_task(app["twitch"].init_subscriptions())
 
     # fishnet active workers
     app["workers"] = set()
@@ -204,17 +208,22 @@ async def init_state(app):
                     enabled=doc.get("enabled", True)
                 )
 
-        cursor = app["db"].tournament.find()
-        cursor.sort('startsAt', -1)
-        counter = 0
-        async for doc in cursor:
-            if doc["status"] in (T_CREATED, T_STARTED):
-                await load_tournament(app, doc["_id"])
-                counter += 1
-                if counter > 3:
-                    break
+        await app["db"].tournament.create_index("startsAt")
+        await app["db"].tournament.create_index("status")
 
-        await generate_shield(app)
+        cursor = app["db"].tournament.find({"$or": [{"status": T_STARTED}, {"status": T_CREATED}]})
+        cursor.sort('startsAt', -1)
+        to_date = (datetime.now() + timedelta(days=SCHEDULE_MAX_DAYS)).date()
+        async for doc in cursor:
+            if doc["status"] == T_STARTED or (
+                    doc["status"] == T_CREATED and doc["startsAt"].date() <= to_date):
+                await load_tournament(app, doc["_id"])
+
+        already_scheduled = await get_scheduled_tournaments(app)
+        new_tournaments_data = new_scheduled_tournaments(already_scheduled)
+        await create_scheduled_tournaments(app, new_tournaments_data)
+
+        asyncio.create_task(generate_shield(app))
 
         db_collections = await app["db"].list_collection_names()
 
@@ -260,7 +269,7 @@ async def shutdown(app):
 
     response = {"type": "roundchat", "user": "", "message": msg, "room": "player"}
     for game in app["games"].values():
-        await round_broadcast(game, app["users"], response, full=True)
+        await round_broadcast(game, response, full=True)
 
     # No need to wait in dev mode and in unit tests
     if not DEV and app["db"] is not None:

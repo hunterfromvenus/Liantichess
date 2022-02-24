@@ -11,11 +11,11 @@ from sortedcollections import ValueSortedDict
 from sortedcontainers import SortedKeysView
 from pymongo import ReturnDocument
 
-from broadcast import lobby_broadcast
+from broadcast import lobby_broadcast, discord_message
 from compress import R2C
 from const import CASUAL, RATED, CREATED, STARTED, BYEGAME, VARIANTEND, FLAG,\
     ARENA, RR, T_CREATED, T_STARTED, T_ABORTED, T_FINISHED, T_ARCHIVED, SHIELD,\
-    MAX_CHAT_LINES
+    MAX_CHAT_LINES, TOURNAMENT_SPOTLIGHTS_MAX
 from game import Game
 from user import User
 from glicko2.glicko2 import gl2
@@ -26,10 +26,12 @@ from spectators import spectators
 
 log = logging.getLogger(__name__)
 
-
 SCORE, STREAK, DOUBLE = range(1, 4)
 
 SCORE_SHIFT = 100000
+
+NOTIFY1_MINUTES = 10 * 60 * 6
+NOTIFY2_MINUTES = 10
 
 Point = Tuple[int, int]
 
@@ -177,6 +179,9 @@ class Tournament(ABC):
         self.first_pairing = False
         self.top_player = None
         self.top_game = None
+
+        self.notify1 = False
+        self.notify2 = False
 
         if minutes is None:
             self.ends_at = self.starts_at + timedelta(days=1)
@@ -329,15 +334,28 @@ class Tournament(ABC):
             while self.status not in (T_ABORTED, T_FINISHED, T_ARCHIVED):
                 now = datetime.now(timezone.utc)
 
-                if self.status == T_CREATED and now >= self.starts_at:
-                    if self.system != ARENA and len(self.players) < 3:
-                        # Swiss and RR Tournaments need at least 3 players to start
-                        await self.abort()
-                        print("T_ABORTED: less than 3 player joined")
-                        break
+                if self.status == T_CREATED:
+                    remaining_to_start = int((self.starts_at - now).seconds / 60)
+                    if now >= self.starts_at:
+                        if self.system != ARENA and len(self.players) < 3:
+                            # Swiss and RR Tournaments need at least 3 players to start
+                            await self.abort()
+                            print("T_ABORTED: less than 3 player joined")
+                            break
 
-                    await self.start(now)
-                    continue
+                        await self.start(now)
+                        continue
+
+                    elif (not self.notify2) and remaining_to_start <= NOTIFY2_MINUTES:
+                        self.notify1 = True
+                        self.notify2 = True
+                        await discord_message(self.app, "notify_tournament", self.notify_discord_msg(remaining_to_start))
+                        continue
+
+                    elif (not self.notify1) and remaining_to_start <= NOTIFY1_MINUTES:
+                        self.notify1 = True
+                        await discord_message(self.app, "notify_tournament", self.notify_discord_msg(remaining_to_start))
+                        continue
 
                 elif (self.minutes is not None) and now >= self.ends_at:
                     await self.finish()
@@ -353,7 +371,7 @@ class Tournament(ABC):
                         if now >= self.prev_pairing + self.wave + random.uniform(-self.wave_delta, self.wave_delta):
                             waiting_players = self.waiting_players()
                             nb_waiting_players = len(waiting_players)
-                            if nb_waiting_players == 2 or nb_waiting_players >= (4 if len(self.players) > 20 else 3):
+                            if nb_waiting_players == 2 or nb_waiting_players >= (4 if len(self.players) > 20 or self.ongoing_games > 0 else 3):
                                 log.debug("Enough player (%s), do pairing", nb_waiting_players)
                                 await self.create_new_pairings(waiting_players)
                                 self.prev_pairing = now
@@ -375,7 +393,7 @@ class Tournament(ABC):
                     else:
                         print("%s has %s ongoing game(s)..." % ("RR" if self.system == RR else "Swiss", self.ongoing_games))
 
-                log.debug("%s CLOCK %s", self.id, now.strftime("%H:%M:%S"))
+                    log.debug("%s CLOCK %s", self.id, now.strftime("%H:%M:%S"))
                 await asyncio.sleep(1)
         except Exception:
             log.exception("Exception in tournament clock()")
@@ -890,7 +908,6 @@ class Tournament(ABC):
             }
         else:
             full_score = self.leaderboard[user]
-            # print("%s %20s %s %s %s" % (i, user.title + user.username, player_data.points, int(full_score / SCORE_SHIFT), player_data.performance))
             new_data = {
                 "_id": player_id,
                 "tid": self.id,
@@ -997,17 +1014,31 @@ class Tournament(ABC):
             ))
 
     @property
-    def discord_msg(self):
+    def create_discord_msg(self):
         tc = time_control_str(self.base, self.inc, self.byoyomi_period)
         tail960 = "960" if self.chess960 else ""
         return "%s: **%s%s** %s tournament starts at UTC %s, duration will be **%s** minutes" % (
             self.created_by, self.variant, tail960, tc, self.starts_at.strftime("%Y.%m.%d %H:%M"), self.minutes)
 
+    def notify_discord_msg(self, minutes):
+        tc = time_control_str(self.base, self.inc, self.byoyomi_period)
+        tail960 = "960" if self.chess960 else ""
+        if minutes >= 60:
+            time = int(minutes / 60)
+            time_text = "hours"
+        else:
+            time = minutes
+            time_text = "minutes"
+        return "%s: **%s%s** %s tournament starts in **%s** %s!" % (
+            self.created_by, self.variant, tail960, tc, time, time_text)
+
 
 def tournament_spotlights(tournaments):
+    to_date = datetime.now().date()
     items = []
-    for tid, tournament in tournaments.items():
-        if tournament.status in (T_CREATED, T_STARTED):
+    for tid, tournament in sorted(tournaments.items(), key=lambda item: item[1].starts_at):
+        if tournament.status == T_STARTED or (
+                tournament.status == T_CREATED and tournament.starts_at.date() <= to_date):
             items.append({
                 "tid": tournament.id,
                 "name": tournament.name,
@@ -1016,4 +1047,6 @@ def tournament_spotlights(tournaments):
                 "nbPlayers": tournament.nb_players,
                 "startsAt": tournament.starts_at.isoformat(),
             })
+            if len(items) == TOURNAMENT_SPOTLIGHTS_MAX:
+                break
     return items

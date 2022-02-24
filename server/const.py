@@ -1,5 +1,8 @@
 from settings import static_url
 
+SCHEDULE_MAX_DAYS = 7
+TOURNAMENT_SPOTLIGHTS_MAX = 4
+
 # Max number of lobby chat lines (deque limit)
 MAX_CHAT_LINES = 100
 
@@ -142,6 +145,7 @@ VARIANT_ICONS = {
     "minishogi": "6",
     "dobutsu": "8",
     "gorogoro": "🐱",
+    "gorogoroplus": "🐱",
     "torishogi": "🐦",
     "cambodian": "!",
     "shako": "9",
@@ -163,6 +167,7 @@ VARIANT_ICONS = {
 #    "ordamirror": "◩",
     "asean": "♻",
     "chak": "🐬",
+    "chennis": "🎾",
 }
 
 VARIANT_960_TO_PGN = {
@@ -194,9 +199,9 @@ VARIANT_960_TO_PGN = {
 }
 
 CATEGORIES = {
-    "chess": ("chess", "chess960", "crazyhouse", "crazyhouse960", "placement", "atomic", "atomic960", "antichess", "antichess960", "antiatomic", "antiatomic", "coffeehouse", "coffeehouse960", "antihoppelpoppel", "anticapablanca", "antichak", "antigrandhouse"),
-    "fairy": ("capablanca", "capablanca960", "capahouse", "capahouse960", "seirawan", "seirawan960", "shouse", "grand", "grandhouse", "shako", "shogun", "hoppelpoppel"),
-    "army": ("synochess", "shinobi", "empire", "chak"),
+    "chess": ("antichess", "losers", "anti_antichess", "antiatomic", "antihouse", "antipawns"),
+    "fairy": ("antiplacement", "antihoppelpoppel", "coffee_3check", "coffeerace", "coffeehouse"),
+    "army": ("coffeehill", "atomic_giveaway_hill"),
     "makruk": ("makruk", "makpong", "cambodian", "sittuyin", "asean"),
     "shogi": ("shogi", "minishogi", "kyotoshogi", "dobutsu", "gorogoro", "torishogi", "antishogi", "antiminishogi"),
     "xiangqi": ("xiangqi", "manchu", "janggi", "minixiangqi"),
@@ -256,8 +261,10 @@ def variant_display_name(variant):
         return "S-HOUSE"
     elif variant == "cambodian":
         return "OUK CHATRANG"
-#    elif variant == "ordamirror":
- #       return "ORDA MIRROR"
+    elif variant == "ordamirror":
+        return "ORDA MIRROR"
+    elif variant == "gorogoroplus":
+        return "GOROGORO+"
     elif variant == "kyotoshogi":
         return "KYOTO SHOGI"
     elif variant == "torishogi":

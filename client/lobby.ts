@@ -118,11 +118,11 @@ export class LobbyController {
     spotlights: VNode | HTMLElement;
     minutesValues = [
         0, 1 / 4, 1 / 2, 3 / 4, 1, 3 / 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-        17, 18, 19, 20, 25, 30, 35, 40, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180
+        17, 18, 19, 20, 25, 30, 35, 40, 45, 60, 75, 90
     ];
     incrementValues = [ 
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-        25, 30, 35, 40, 45, 60, 90, 120, 150, 180
+        25, 30, 35, 40, 45, 60, 90
     ];
     minutesStrings = ["0", "¼", "½", "¾"];
 
@@ -375,7 +375,8 @@ export class LobbyController {
 
     renderSeekButtons() {
         const vVariant = this.model.variant || localStorage.seek_variant || "chess";
-        const vMin = localStorage.seek_min ?? "5";
+        // 5+3 default TC needs vMin 9 because of the partial numbers at the beginning of minutesValues
+        const vMin = localStorage.seek_min ?? "9";
         const vInc = localStorage.seek_inc ?? "3";
         const vByoIdx = (localStorage.seek_byo ?? 1) - 1;
         const vRated = localStorage.seek_rated ?? "0";
@@ -723,7 +724,7 @@ export class LobbyController {
     }
     private mode(seek: Seek) {
         if (seek.alternateStart)
-            return seek.alternateStart;
+            return _(seek.alternateStart);
         else if (seek.fen)
             return _("Custom");
         else if (seek.rated)
@@ -743,6 +744,7 @@ export class LobbyController {
     private spotlightView(spotlight: Spotlight) {
         const variant = VARIANTS[spotlight.variant];
         const chess960 = spotlight.chess960;
+        const variantName = variant.displayName(chess960);
         const dataIcon = variant.icon(chess960);
 
         return h('a.tour-spotlight', { attrs: { "href": "/tournament/" + spotlight.tid } }, [
@@ -750,6 +752,7 @@ export class LobbyController {
             h('span.content', [
                 h('span.name', spotlight.name),
                 h('span.more', [
+                    h('variant', variantName + ' • '),
                     h('nb', ngettext('%1 player', '%1 players', spotlight.nbPlayers) + ' • '),
                     h('info-date', { attrs: { "timestamp": spotlight.startsAt } } )
                 ])
@@ -875,7 +878,10 @@ export class LobbyController {
     }
 
     private onMsgSpotlights(msg: MsgSpotlights) {
-        this.spotlights = patch(this.spotlights, h('div#spotlights', msg.items.map(spotlight => this.spotlightView(spotlight))));
+        this.spotlights = patch(this.spotlights, h('div#spotlights', [
+            h('div', msg.items.map(spotlight => this.spotlightView(spotlight))),
+            h('a.cont-link', { attrs: { href: '/calendar' } }, _('Tournament calendar') + ' »'),
+        ]));
     }
 }
 

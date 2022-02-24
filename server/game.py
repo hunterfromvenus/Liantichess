@@ -143,11 +143,13 @@ class Game:
                             counting_player = self.bplayer if counting_ply % 2 == 0 else self.wplayer
                             self.draw_offers.add(counting_player.username)
 
+        disabled_fen = ""
         if self.chess960 and self.initial_fen and self.create:
             if self.wplayer.fen960_as_white == self.initial_fen:
+                disabled_fen = self.initial_fen
                 self.initial_fen = ""
 
-        self.board = self.create_board(self.variant, self.initial_fen, self.chess960, count_started)
+        self.board = FairyBoard(self.variant, self.initial_fen, self.chess960, count_started, disabled_fen)
 
         # Janggi setup needed when player is not BOT
         if self.variant == "janggi":
@@ -174,7 +176,7 @@ class Game:
         self.initial_fen = self.board.initial_fen
         self.wplayer.fen960_as_white = self.initial_fen
 
-        self.random_mover = self.wplayer.username == "Random-Mover" or self.bplayer.username == "Random-Mover"
+        self.random_mover = "Random-Mover" in (self.wplayer.username, self.bplayer.username)
         self.random_move = ""
 
         self.set_dests()
@@ -199,10 +201,6 @@ class Game:
         self.bberserk = False
 
         self.move_lock = asyncio.Lock()
-
-    @staticmethod
-    def create_board(variant, initial_fen, chess960, count_started):
-        return FairyBoard(variant, initial_fen, chess960, count_started)
 
     def berserk(self, color):
         if color == "white" and not self.wberserk:
@@ -230,14 +228,13 @@ class Game:
         # Move cancels draw offer
         response = reject_draw(self, opp_player.username)
         if response is not None:
-            await round_broadcast(self, self.app["users"], response, full=True)
+            await round_broadcast(self, response, full=True)
 
         cur_time = monotonic()
 
         # BOT players doesn't send times used for moves
         if self.bot_game:
             movetime = int(round((cur_time - self.last_server_clock) * 1000))
-            # print(self.board.ply, move, movetime)
             if clocks is None:
                 clocks = {
                     "white": self.ply_clocks[-1]["white"],
@@ -318,8 +315,6 @@ class Game:
 
             # TODO: this causes random game abort
             if False:  # not self.bot_game:
-                # print("--------------ply-", ply)
-                # print(self.board.color, clocks, self.ply_clocks)
                 opp_color = self.steps[-1]["turnColor"]
                 if clocks[opp_color] < self.ply_clocks[ply - 1][opp_color] and self.status <= STARTED:
                     self.update_status(ABORTED)
@@ -353,7 +348,7 @@ class Game:
             try:
                 del self.games[self.id]
             except KeyError:
-                log.error("Failed to del %s from games", self.id)
+                log.info("Failed to del %s from games", self.id)
 
             if self.bot_game:
                 try:
@@ -362,7 +357,7 @@ class Game:
                     if self.bplayer.bot:
                         del self.bplayer.game_queues[self.id]
                 except KeyError:
-                    log.error("Failed to del %s from game_queues", self.id)
+                    log.info("Failed to del %s from game_queues", self.id)
 
         self.remove_task = asyncio.create_task(remove(KEEP_TIME))
 
@@ -381,8 +376,6 @@ class Game:
                     await self.app["tournaments"][self.tournamentId].game_update(self)
                 except Exception:
                     log.exception("Exception in tournament game_update()")
-
-            # self.print_game()
 
             new_data = {
                 "d": self.date,
@@ -422,7 +415,7 @@ class Game:
             return
 
         if len(self.crosstable["r"]) > 0 and self.crosstable["r"][-1].startswith(self.id):
-            print("Crosstable was already updated with %s result" % self.id)
+            log.info("Crosstable was already updated with %s result", self.id)
             return
 
         if self.result == "1/2-1/2":
@@ -454,7 +447,7 @@ class Game:
 
     async def save_crosstable(self):
         if not self.need_crosstable_save:
-            print("Crosstable update for %s was already saved to mongodb" % self.id)
+            log.info("Crosstable update for %s was already saved to mongodb", self.id)
             return
 
         new_data = {
@@ -499,11 +492,10 @@ class Game:
             (white_score, black_score) = (0.0, 1.0)
         else:
             raise RuntimeError('game.result: unexpected result code')
-        wr, br = self.white_rating, self.black_rating
-        # print("ratings before updated:", wr, br)
-        wr = gl2.rate(self.white_rating, [(white_score, br)])
-        br = gl2.rate(self.black_rating, [(black_score, wr)])
-        # print("ratings after updated:", wr, br)
+
+        wr = gl2.rate(self.white_rating, [(white_score, self.black_rating)])
+        br = gl2.rate(self.black_rating, [(black_score, self.white_rating)])
+
         await self.wplayer.set_rating(self.variant, self.chess960, wr)
         await self.bplayer.set_rating(self.variant, self.chess960, br)
 
@@ -551,7 +543,6 @@ class Game:
 
         w, b = self.board.insufficient_material()
         if w and b:
-            # print("1/2 by board.insufficient_material()")
             self.status = DRAW
             self.result = "1/2-1/2"
 
@@ -561,9 +552,13 @@ class Game:
 
             if self.board.is_immediate_game_end()[0]:
                 self.status = VARIANTEND
-                # print(self.result, "variant end")
             elif self.check:
                 self.status = MATE
+
+                if self.variant == 'atomic' and game_result_value == 0:
+                    # If Fairy game_result() is 0 it is not mate but stalemate
+                    self.status = STALEMATE
+
                 # Draw if the checkmating player is the one counting
                 if self.board.count_started > 0:
                     counting_side = 'b' if self.board.count_started % 2 == 0 else 'w'
@@ -571,19 +566,12 @@ class Game:
                         self.status = DRAW
                         self.result = "1/2-1/2"
 
+                # Pawn drop mate
                 # TODO: remove this when https://github.com/ianfab/Fairy-Stockfish/issues/48 resolves
-                if self.board.move_stack[-1][0:2] == "P@" and self.variant in ("shogi", "minishogi", "gorogoro"):
+                if self.board.move_stack[-1][0:2] == "P@" and self.variant in ("shogi", "minishogi", "gorogoro", "gorogoroplus"):
                     self.status = INVALIDMOVE
-                # print(self.result, "checkmate")
             else:
-                # being in stalemate loses in xiangqi and shogi variants
-                # Atomic checkmate is internally a stalemate so we need to change it here. Remove when pyffish is fixed.
-                if self.variant == 'atomic' and self.result != "1/2-1/2":
-                    self.status = MATE
-                    # print(self.result, "checkmate")
-                else:
-                    self.status = STALEMATE
-                    # print(self.result, "stalemate")
+                self.status = STALEMATE
 
         elif self.variant in ('makruk', 'makpong', 'cambodian', 'sittuyin', 'asean'):
             parts = self.board.fen.split()
@@ -593,7 +581,6 @@ class Game:
                 if counting_ply > counting_limit:
                     self.status = DRAW
                     self.result = "1/2-1/2"
-                    # print(self.result, "counting limit reached")
 
         else:
             # end the game by 50 move rule and repetition automatically
@@ -602,12 +589,10 @@ class Game:
             if is_game_end and (game_result_value != 0 or (self.wplayer.bot or self.bplayer.bot)):
                 self.result = result_string_from_value(self.board.color, game_result_value)
                 self.status = CLAIM if game_result_value != 0 else DRAW
-                # print(self.result, "claim")
 
         if self.board.ply > MAX_PLY:
             self.status = DRAW
             self.result = "1/2-1/2"
-            # print(self.result, "Ply %s reached" % MAX_PLY)
 
         if self.status > STARTED:
             self.set_crosstable()
@@ -621,10 +606,8 @@ class Game:
         dests = {}
         promotions = []
         moves = self.board.legal_moves()
-        # print("self.board.legal_moves()", moves)
         if self.random_mover:
             self.random_move = random.choice(moves) if moves else ""
-            # print("RM: %s" % self.random_move)
 
         for move in moves:
             # chessgroundx key uses ":" for tenth rank
@@ -637,10 +620,10 @@ class Game:
                 dests[source] = [dest]
 
             if not move[-1].isdigit():
-                if not (self.variant in ("seirawan", "shouse") and (move[1] == '1' or move[1] == '8')):
+                if not (self.variant in ("seirawan", "shouse") and move[1] in ('1', '8')):
                     promotions.append(move)
 
-            if self.variant == "kyotoshogi" and move[0] == "+":
+            if self.variant in ("kyotoshogi", "chennis") and move[0] == "+":
                 promotions.append(move)
 
         self.dests = dests
@@ -649,11 +632,6 @@ class Game:
     def print_game(self):
         print(self.pgn)
         print(self.board.print_pos())
-        # print(self.board.move_stack)
-        # print("---CLOCKS---")
-        # for ply, clocks in enumerate(self.ply_clocks):
-        #     print(ply, self.board.move_stack[ply - 1] if ply > 0 else "", self.ply_clocks[ply]["movetime"], self.ply_clocks[ply]["black"], self.ply_clocks[ply]["white"])
-        # print(self.result)
 
     @property
     def pgn(self):

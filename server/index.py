@@ -34,6 +34,25 @@ from custom_trophy_owners import CUSTOM_TROPHY_OWNERS
 log = logging.getLogger(__name__)
 
 
+@web.middleware
+async def handle_404(request, handler):
+    try:
+        return await handler(request)
+    except web.HTTPException as ex:
+        if ex.status == 404:
+            template = request.app["jinja"]["en"].get_template("404.html")
+            text = await template.render_async({
+                "dev": DEV,
+                "home": URI,
+                "view_css": "404.css",
+                "asseturl": STATIC_ROOT,
+                "js": "/static/pychess-variants.js%s%s" % (BR_EXTENSION, SOURCE_VERSION),
+            })
+            return web.Response(text=html_minify(text), content_type="text/html")
+        else:
+            return web.Response(ex.status)
+
+
 async def index(request):
     """ Create home html. """
 
@@ -159,23 +178,25 @@ async def index(request):
 
         if request.path.endswith("/pause") and user in tournament.players:
             await tournament.pause(user)
+    elif request.path.startswith("/calendar"):
+        view = "calendar"
 
     profileId = request.match_info.get("profileId")
     if profileId is not None and profileId not in users:
         await asyncio.sleep(3)
-        return web.Response(status=404)
+        raise web.HTTPNotFound()
 
     variant = request.match_info.get("variant")
     if (variant is not None) and ((variant not in VARIANTS) and variant != "terminology"):
         log.debug("Invalid variant %s in request", variant)
-        return web.Response(status=404)
+        raise web.HTTPNotFound()
 
     fen = request.rel_url.query.get("fen")
     rated = None
 
     if (fen is not None) and "//" in fen:
         log.debug("Invelid FEN %s in request", fen)
-        return web.Response(status=404)
+        raise web.HTTPNotFound()
 
     if profileId is not None:
         view = "profile"
@@ -230,16 +251,12 @@ async def index(request):
         if view != "invite":
             game = await load_game(request.app, gameId)
             if game is None:
-                log.debug("Requested game %s not in app['games']", gameId)
-                template = get_template("404.html")
-                text = await template.render_async({"home": URI})
-                return web.Response(
-                    text=html_minify(text), content_type="text/html")
+                raise web.HTTPNotFound()
 
             if (ply is not None) and (view != "embed"):
                 view = "analysis"
 
-            if user.username != game.wplayer.username and user.username != game.bplayer.username:
+            if user.username not in (game.wplayer.username, game.bplayer.username):
                 game.spectators.add(user)
 
             if game.tournamentId is not None:
@@ -344,7 +361,6 @@ async def index(request):
         render["users"] = users
         render["online_users"] = online_users
         render["anon_online"] = anon_online
-        # render["offline_users"] = offline_users
         hs = request.app["highscore"]
         render["highscore"] = {variant: dict(hs[variant].items()[:10]) for variant in hs}
 
@@ -474,7 +490,6 @@ async def index(request):
     except Exception:
         return web.HTTPFound("/")
 
-    # log.debug("Response: %s" % text)
     response = web.Response(text=html_minify(text), content_type="text/html")
     parts = urlparse(URI)
     response.set_cookie("user", session["user_name"], domain=parts.hostname, secure=parts.scheme == "https", samesite="Lax", max_age=None if user.anon else MAX_AGE)
@@ -495,4 +510,4 @@ async def select_lang(request):
         session["lang"] = lang
         return web.HTTPFound(referer)
     else:
-        return web.Response(status=404)
+        raise web.HTTPNotFound()

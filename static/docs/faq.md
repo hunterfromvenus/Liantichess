@@ -32,6 +32,17 @@ It is the strongest available on this site, but does not represent Fairy-Stockfi
 
 Check out the [Variants page](https://liantichess.herokuapp.com/variants).</details>
 
+<details><summary>How do you play XXX?</summary>
+
+Check out the [Variants page](https://liantichess.herokuapp.com/variants). Also, within a game, you can click the variant name at the top left to be taken to that game's learn page.</details>
+
+<details><summary>How do you choose which variants to add?</summary>
+
+Only Antichess variants will be added to Liantichess. Often the most popular or well-known variants are added or variants related to games on [Pychess](https://www.pychess.org/) or [Lichess](https://lichess.org/). However, there are still some that can't be added. Liantichess relies on Fairy-Stockfish to support the variant, as our code also depends on Fairy-Stockfish for move validation. This also means no variants that aren't supported by Fairy-Stockfish can be on Liantichess.</details>
+
+<details><summary>Can you add XXX?</summary>
+
+It depends on how popular or how interesting the variant is. We can't even consider adding variants that aren't supported by Fairy-Stockfish. Otherwise, you can ask us on Discord or Github.</details>
 
 ## Interface
 
@@ -64,6 +75,3 @@ No! That is done via OAuth and your password isn't revealed to LiAntichess, just
 <details><summary>What's the best way to contact the developers?</summary>
 
 You can try the lobby chat, although the developers might not be on to answer. More reliably, we use [Discord](https://discord.gg/S3JmrXtsF2).</details>
-
-
-
